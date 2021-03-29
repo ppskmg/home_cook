@@ -74,7 +74,7 @@ mux.Handle("/api/", routerHandler) // где сам routerHandler формиру
 
 // ...{domain}/router
 hs := httprouter.New()
-hs.POST("/api/auth", handlerFuncAuth)
+hs.POST("/api/auth/", handlerFuncAuth)
 hs.GET("/api/rout2/create", handlerFuncRout2)
 hs.GET("/api/rout2/:param", handlerFuncParam)
 
@@ -87,9 +87,9 @@ hs.GET("/api/routd2/:param", handlerFuncParam)
 // а в сервере из пакетов уровня doamin дёргать только сам роутер, серверу не нужно знать как работает пакет внутри, но надо уметь его втянуть в конфиг
 // app/apiserver/server.go
 mux := http.NewServeMux()
-mux.Handle("/api/auth", routerDomainHandler)
+mux.Handle("/api/auth/", routerDomainHandler)
 mux.Handle("/api/rout1/", routerDomainHandler2)
-mux.Handle("/api/rout2", routerDomainHandler3) // слушаем точку конкретным роутером, а остальное разгребается на уровне домена
+mux.Handle("/api/rout2/", routerDomainHandler3) // слушаем точку конкретным роутером, а остальное разгребается на уровне домена
 
 // с логером в данном контексте примерно такие же проблемы, всё здорово пока пару точек и пару ручек. 
 
