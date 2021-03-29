@@ -66,7 +66,7 @@ func (s *server) handleUsersCreate() http.HandlerFunc {} //... куча хенд
 
 // теперь чтобы юзать разные роутеры по хорошему бы на уровне сервера собирать роуты из пакетов, а не пытаться конфигурировать весь api внутри конфига сервера
 
-// ...{domain}/apiserver
+// app/apiserver/server.go
 mux := http.NewServeMux()
 mux.Handle("/api/", routerHandler) // где сам routerHandler формируется уже внутри домена с нужным роутером и персональными кишками 
 
