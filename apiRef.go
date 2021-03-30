@@ -70,32 +70,4 @@ func (s *server) handleUsersCreate() http.HandlerFunc {} //... куча хенд
 mux := http.NewServeMux()
 mux.Handle("/api/", routerHandler) // где сам routerHandler формируется уже внутри домена с нужным роутером и персональными кишками 
 
-// внутри самого домена можно делать такого плана 
 
-// ...{domain}/router
-hs := httprouter.New()
-hs.POST("/api/auth/", handlerFuncAuth)
-hs.GET("/api/rout2/create", handlerFuncRout2)
-hs.GET("/api/rout2/:param", handlerFuncParam)
-
-// ...{domain2}/router
-hs := httprouter.New()
-hs.POST("/api/routd2", handlerFuncAuth)
-hs.GET("/api/routd2/create", handlerFuncRout2)
-hs.GET("/api/routd2/:param", handlerFuncParam)
-
-// а в сервере из пакетов уровня doamin дёргать только сам роутер, серверу не нужно знать как работает пакет внутри, но надо уметь его втянуть в конфиг
-// app/apiserver/server.go
-mux := http.NewServeMux()
-mux.Handle("/api/auth/", routerDomainHandler)
-mux.Handle("/api/rout1/", routerDomainHandler2)
-mux.Handle("/api/rout2/", routerDomainHandler3) // слушаем точку конкретным роутером, а остальное разгребается на уровне домена
-
-// с логером в данном контексте примерно такие же проблемы, всё здорово пока пару точек и пару ручек. 
-
-// как итог получим понятный менеджер пакетов на уровне api 
-// не тратим времени на поиск и попытку понять зону ответственности
-// при желании нужную логику можно перенести простым копипастом и подключением к новому конфигу в удну строчку
-// проще дебажить и разрабатывать
-
-// ps то чувтсво когда чистую архитектуру каждый понял по разному
